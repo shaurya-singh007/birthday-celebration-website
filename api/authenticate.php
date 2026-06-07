@@ -1,4 +1,5 @@
 <?php
+ini_set('session.cookie_httponly', 1);
 session_start();
 
 // Hardcoded BCrypt hashes for 'ankita' and 'cutiee'
@@ -19,9 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($authenticated) {
-        // Prevent Session Hijacking - set cookie params
-        ini_set('session.cookie_httponly', 1);
-        
         $_SESSION['auth_status'] = true;
         header('Location: home.php');
         exit();
