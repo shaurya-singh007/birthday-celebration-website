@@ -1,0 +1,536 @@
+/* ==========================================================================
+   Project Birthday Surprise - Global Stylesheet
+   ========================================================================== */
+
+/* Custom properties & colors */
+:root {
+    --primary: #ba002c;
+    --primary-light: #ff5270;
+    --primary-dark: #80001a;
+    --accent: #ff0055;
+    --bg-dark: #0f090c;
+    --bg-gradient: linear-gradient(135deg, #1f0b12 0%, #0d0407 100%);
+    --text-white: #ffffff;
+    --text-pink: #ffd9e2;
+    --text-muted: rgba(255, 255, 255, 0.6);
+}
+
+/* Base resets & typography */
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    cursor: none; /* Hide default cursor */
+}
+
+/* Ensure interactive elements also hide cursor */
+a, button, select, input, textarea, [role="button"], iframe, .interactive {
+    cursor: none !important;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.custom-cursor-follower {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s, height 0.25s, background-color 0.25s, border-color 0.25s;
+    will-change: transform;
+}
+
+/* Hover Cursor States */
+.cursor-hover .custom-cursor {
+    width: 14px;
+    height: 14px;
+    background-color: #ffffff;
+    mix-blend-mode: difference;
+}
+
+.cursor-hover .custom-cursor-follower {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 0, 85, 0.35);
+    border-color: #ffffff;
+    mix-blend-mode: difference;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+}
+
+/* Glassmorphism Styles */
+.glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 16px 36px 0 rgba(0, 0, 0, 0.4);
+    border-radius: 24px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 82, 112, 0.4);
+    box-shadow: 0 20px 48px 0 rgba(186, 0, 44, 0.25);
+}
+
+.glass-input {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50px;
+    color: var(--text-white);
+    padding: 14px 28px;
+    outline: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s;
+}
+
+.glass-input:focus {
+    border-color: var(--primary-light);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 82, 112, 0.3);
+}
+
+/* 3D Tilt Card Base */
+.tilt-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.tilt-inner {
+    transform: translateZ(50px);
+}
+
+/* Animations */
+@keyframes heartFloat {
+    0% { transform: translateY(0px) rotate(0deg) scale(0.6); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-105vh) rotate(360deg) scale(1.2); opacity: 0; }
+}
+
+.heart-particle {
+    position: fixed;
+    bottom: -50px;
+    pointer-events: none;
+    z-index: 1;
+    animation: heartFloat 12s linear infinite;
+    color: var(--primary-light);
+    filter: drop-shadow(0 0 5px rgba(255, 82, 112, 0.4));
+}
+
+/* Text glow */
+.text-glow {
+    text-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+}
+
+.text-glow-white {
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+}
+
+/* Scroll reveal classes */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Parallax backgrounds */
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.parallax-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    mix-blend-mode: screen;
+}
+
+/* Light / Dark overrides for custom cursor in light cards */
+.light-theme-area .custom-cursor {
+    background: #000;
+}
+
+/* ==========================================================================
+   Scratch-to-Reveal Love Letter Cards
+   ========================================================================== */
+.scratch-card-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.scratch-letter-content {
+    padding: 40px 32px;
+    background: linear-gradient(145deg, #1a0a10 0%, #0f090c 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    min-height: 400px;
+}
+
+.scratch-letter-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #ff0055;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.scratch-letter-content p {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    line-height: 2;
+    color: rgba(255, 210, 220, 0.85);
+    margin-bottom: 16px;
+}
+
+.scratch-letter-content .letter-sign {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: #ff0055;
+    margin-top: 24px;
+}
+
+.scratch-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+    cursor: grab;
+    z-index: 5;
+    touch-action: none;
+}
+
+.scratch-canvas:active {
+    cursor: grabbing;
+}
+
+.scratch-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+    pointer-events: none;
+    text-align: center;
+    transition: opacity 0.5s;
+}
+
+.scratch-hint span {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: white;
+    font-weight: 600;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.scratch-hint .hint-sub {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Infinite Horizontal Photo Carousel
+   ========================================================================== */
+.carousel-track-wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.carousel-track-wrapper::before,
+.carousel-track-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.carousel-track-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #0f090c, transparent);
+}
+
+.carousel-track-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #0f090c, transparent);
+}
+
+.carousel-track {
+    display: flex;
+    gap: 24px;
+    animation: marqueeScroll 35s linear infinite;
+    width: max-content;
+}
+
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+.carousel-track img {
+    height: 320px;
+    width: auto;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s, box-shadow 0.4s;
+    flex-shrink: 0;
+}
+
+.carousel-track img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 48px rgba(255, 0, 85, 0.3);
+    border-color: rgba(255, 0, 85, 0.4);
+}
+
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   DOOM SCROLL - Full-Screen Parallax Photo Gallery
+   ========================================================================== */
+
+/* Intro section fades out as user scrolls */
+.doom-scroll-intro {
+    background: radial-gradient(ellipse at center, rgba(186, 0, 44, 0.08) 0%, transparent 70%);
+}
+
+/* Each panel is a full-viewport section */
+.doom-panel {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.doom-panel-img {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.doom-panel-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.15);
+    transition: transform 8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+    filter: brightness(0.65) saturate(1.2);
+}
+
+.doom-panel.is-visible .doom-panel-img img {
+    transform: scale(1);
+}
+
+/* Dark gradient overlay on each panel */
+.doom-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(15, 9, 12, 0.7) 0%,
+        rgba(15, 9, 12, 0.2) 30%,
+        rgba(15, 9, 12, 0.1) 50%,
+        rgba(15, 9, 12, 0.3) 70%,
+        rgba(15, 9, 12, 0.85) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Caption overlay at bottom */
+.doom-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    padding: 40px 32px 48px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.doom-panel.is-visible .doom-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.doom-caption-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin: 0 0 8px;
+    line-height: 1.2;
+}
+
+.doom-caption-text p {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    color: rgba(255, 210, 220, 0.8);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.doom-caption-counter {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    color: rgba(255, 0, 85, 0.25);
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(255, 0, 85, 0.15);
+}
+
+/* Progress bar at the side */
+.doom-progress {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    z-index: 100;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.doom-progress.active {
+    opacity: 1;
+}
+
+.doom-progress-fill {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to bottom, var(--accent), var(--primary));
+    border-radius: 10px;
+    transition: height 0.3s;
+}
+
+/* Decorative side line markers */
+.doom-panel-line {
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.6s 0.3s;
+}
+
+.doom-panel.is-visible .doom-panel-line {
+    opacity: 1;
+}
+
+.doom-panel-line span {
+    width: 2px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: 2px;
+    opacity: 0.4;
+}
+
+.doom-panel-line em {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-style: normal;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .doom-caption {
+        padding: 24px 20px 32px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .doom-caption-counter {
+        font-size: 32px;
+    }
+    
+    .doom-panel-line {
+        left: 16px;
+    }
+    
+    .doom-progress {
+        right: 12px;
+        height: 120px;
+    }
+}
