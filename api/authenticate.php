@@ -1,6 +1,5 @@
 <?php
 ini_set('session.cookie_httponly', 1);
-session_start();
 
 // Hardcoded BCrypt hashes for 'ani', 'ankita', and 'cutiee'
 $hashes = [
@@ -21,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($authenticated) {
-        $_SESSION['auth_status'] = true;
+        // Set secure cookie expiring in 30 days
+        setcookie('auth_status', 'authenticated', time() + (86400 * 30), "/");
         header('Location: home.php');
         exit();
     } else {

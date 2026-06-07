@@ -1,6 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['auth_status']) || $_SESSION['auth_status'] !== true) {
+if (!isset($_COOKIE['auth_status']) || $_COOKIE['auth_status'] !== 'authenticated') {
     header('Location: index.php');
     exit();
 }
