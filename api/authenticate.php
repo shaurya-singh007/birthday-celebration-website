@@ -2,8 +2,9 @@
 ini_set('session.cookie_httponly', 1);
 session_start();
 
-// Hardcoded BCrypt hashes for 'ankita' and 'cutiee'
+// Hardcoded BCrypt hashes for 'ani', 'ankita', and 'cutiee'
 $hashes = [
+    '$2b$10$s8pdppNKtT7atYfkGMHR8eMF2OGYeC9QtKRsG/KRH3i4JcYlaUFrC', // 'ani'
     '$2b$10$yAd3xcqK/7W8Uq3nvri.teInEvNMv96JqI4HsSnHU0gG0tNRq4Ora', // 'ankita'
     '$2b$10$NqzexS/NQEYa3GJaBJxZ3uLdLqFZlPD9eI/c7b3VEXMgJH91t7516'  // 'cutiee'
 ];
